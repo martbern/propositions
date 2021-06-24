@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Todo from "./Todo";
+import Todo from "./Record";
 import Airtable from 'airtable-node'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDice } from '@fortawesome/free-solid-svg-icons'
 
 const airtable = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
-    .base('appMcSmdPtPWcBhIX')
-    .table('Goals')
+    .base('appaZPyyxt98aRiRU')
+    .table('Media')
 
 export default function TaskList(props) {
 
@@ -16,7 +14,7 @@ export default function TaskList(props) {
         airtable.list({
             maxRecords: 999,
             pageSize: 100,
-            view: 'Grid view',
+            view: 'Articles',
             cellFormat: 'json'
         })
         .then((data) => {
@@ -43,27 +41,28 @@ export default function TaskList(props) {
     console.log("Testing " + props.cycle)
 
     return (
-        <div className="justify-center max-w-sm m-5 w-full">
+        <div className="justify-center max-w-lg m-5 w-full">
             <ul>
                 {activities.length > 0 ? (
                     activities
-                    .filter(record => record.fields.Name.length < 100)
+                    .sort(function (a,b) {
+                        return b.fields.SelectionWeight - a.fields.SelectionWeight
+                    })
                     .slice(0, 1)
                     .map((record) => (
                         <Todo
                             name={record.fields.Name}
+                            excerpt={record.fields.Excerpt}
                             id={record.id}
+                            reRun={props.reRun}
+                            URL={record.fields.URL}
+                            key={record.id}
                         />
                     ))
                 ) : (
                     <p>Fetching Data...</p>
                 )}
             </ul>
-            <button onClick={props.reRun}
-                className= "rounded-lg px-2 py-1 border active:border-gray-500 m-2 text-center focus:outline-none shadow hover:shadow-md active:shadow-sm max-w-sm"
-            >
-                <FontAwesomeIcon icon={faDice} />
-            </button>
         </div>
     );
 }
