@@ -34,6 +34,7 @@ export default function TaskList(props) {
             <ul>
                 {activities.length > 0 ? (
                     activities
+                    .filter((record) => record.fields.Concluded != true)
                     .map((record) => (
                         <Todo
                             name={record.fields.what_string}
