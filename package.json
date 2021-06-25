@@ -1,7 +1,7 @@
 {
-  "name": "refinder",
+  "name": "propositions",
   "version": "0.1.0",
-  "homepage": "http://martbern.github.io/refinder",
+  "homepage": "http://martbern.github.io/propositions",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",

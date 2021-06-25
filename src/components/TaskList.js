@@ -3,8 +3,8 @@ import Todo from "./Record";
 import Airtable from 'airtable-node'
 
 const airtable = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
-    .base('appaZPyyxt98aRiRU')
-    .table('Media')
+    .base('appMcSmdPtPWcBhIX')
+    .table('Log')
 
 export default function TaskList(props) {
 
@@ -14,7 +14,7 @@ export default function TaskList(props) {
         airtable.list({
             maxRecords: 999,
             pageSize: 100,
-            view: 'Articles',
+            view: "L: Today's propositions",
             cellFormat: 'json'
         })
         .then((data) => {
@@ -27,17 +27,6 @@ export default function TaskList(props) {
 
     console.log(activities)
 
-    function shuffleArray(array) {
-        for (var i = array.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
-    }
-
-    shuffleArray(activities)
-
     console.log("Testing " + props.cycle)
 
     return (
@@ -45,18 +34,11 @@ export default function TaskList(props) {
             <ul>
                 {activities.length > 0 ? (
                     activities
-                    .sort(function (a,b) {
-                        return b.fields.SelectionWeight - a.fields.SelectionWeight
-                    })
-                    .slice(0, 1)
                     .map((record) => (
                         <Todo
-                            name={record.fields.Name}
-                            excerpt={record.fields.Excerpt}
-                            id={record.id}
-                            reRun={props.reRun}
-                            URL={record.fields.URL}
+                            name={record.fields.what_string}
                             key={record.id}
+                            id={record.id}
                         />
                     ))
                 ) : (
