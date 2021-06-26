@@ -7,24 +7,26 @@ const Log = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
 
 class Todo extends Component {
     delete = () => {
+        var element = document.getElementById(this.props.id);
+        element.style.opacity = "0.1";
+
         Log.delete(this.props.id).then(resp => {
             console.log("Deleting" + this.props.id)
             console.log(resp)
-
-            var element = document.getElementById(this.props.id);
-            element.style.opacity = "0.1";
+            
             element.style.borderColor = "red";
             element.style.borderWidth = "medium";
         })
     }
 
     markComplete = () => {
+        var element = document.getElementById(this.props.id);
+        element.style.opacity = "0.1";
+        
         Log.update(this.props.id, {"Concluded": true}).then(resp => {
             console.log(resp)
             console.log("Concluded? " + this.props.concluded)
             
-            var element = document.getElementById(this.props.id);
-            element.style.opacity = "0.1";
             element.style.borderColor = "green";
             element.style.borderWidth = "medium";
         })
