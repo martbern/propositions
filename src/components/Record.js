@@ -1,10 +1,6 @@
 import React , {Component} from "react";
 import Airtable from 'airtable-node'
 
-const Activities = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
-    .base('appMcSmdPtPWcBhIX')
-    .table('Activities')
-
 const Log = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
     .base('appMcSmdPtPWcBhIX')
     .table('Log')
@@ -13,21 +9,25 @@ class Todo extends Component {
     delete = () => {
         Log.delete(this.props.id).then(resp => {
             console.log("Deleting" + this.props.id)
-            this.fadeOut(this.props.id)
             console.log(resp)
+
+            var element = document.getElementById(this.props.id);
+            element.style.opacity = "0.1";
+            element.style.borderColor = "red";
+            element.style.borderWidth = "medium";
         })
     }
 
     markComplete = () => {
         Log.update(this.props.id, {"Concluded": true}).then(resp => {
             console.log(resp)
-            this.fadeOut(this.props.id)
+            console.log("Concluded? " + this.props.concluded)
+            
+            var element = document.getElementById(this.props.id);
+            element.style.opacity = "0.1";
+            element.style.borderColor = "green";
+            element.style.borderWidth = "medium";
         })
-    }
-
-    fadeOut = (divId) => {
-        var element = document.getElementById(divId);
-        element.style.opacity = "0.3";
     }
 
     /* let atHref = "https://airtable.com/tblo6SQZQakNq4URH/viwd4XwZ1wC8esYgg" + this.props.id; */
