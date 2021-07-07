@@ -39,7 +39,7 @@ function App(props) {
   */
 
   return (
-    <div className="grid mx-auto max-w-3xl">
+    <div className="grid mx-auto max-w-5xl">
         {/* <ul className="grid grid-cols-2">
           {goals.length > 0 ? (
               goals

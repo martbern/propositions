@@ -30,23 +30,26 @@ export default function TaskList(props) {
     console.log("Testing " + props.cycle)
 
     return (
-        <div className="justify-center max-w-lg w-full">
-            <ul>
+        <div className="justify-center max-w-full w-full grid grid-cols-2 grid-flow-row-dense">
                 {activities.length > 0 ? (
                     activities
-                    .filter(record => record.fields["Concluded formula"] === 0)
+                    /* .filter(record => record.fields["Concluded formula"] === 0) */
+                    .sort(function (a, b) {
+                        return a.fields["Concluded formula"] - b.fields["Concluded formula"];
+                    })
                     .map((record) => (
                         <Todo
                             name={record.fields.what_string}
                             key={record.id}
                             id={record.id}
-                            concluded={record.fields.Concluded}
+                            notes={record.fields["Learning points"]}
+                            goals={record.fields["goals_string"]}
+                            concluded={record.fields["Concluded formula"]}
                         />
                     ))
                 ) : (
                     <p>Fetching propositions if any uncompleted...</p>
                 )}
-            </ul>
         </div>
     );
 }
