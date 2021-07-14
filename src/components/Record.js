@@ -5,7 +5,7 @@ const Log = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
     .base('appMcSmdPtPWcBhIX')
     .table('Log')
 
-class Todo extends Component {
+class Record extends Component {
     delete = () => {
         var element = document.getElementById(this.props.id);
         element.style.opacity = "0.1";
@@ -21,14 +21,15 @@ class Todo extends Component {
 
     markComplete = () => {
         var element = document.getElementById(this.props.id);
-        element.style.opacity = "0.1";
+        element.classList.add("border-green-700")
         
         Log.update(this.props.id, {"Concluded": true}).then(resp => {
             console.log(resp)
             console.log("Concluded? " + this.props.concluded)
             
-            element.style.borderColor = "green";
-            element.style.borderWidth = "4px";
+            element.classList.remove("border")
+            element.classList.add("border-4")
+            element.classList.add("opacity-50")
         })
     }
 
@@ -42,7 +43,8 @@ class Todo extends Component {
     render() {
         return (
         <div>
-            <a href = {this.href} className={this.props.concluded === 1 ? "border-4 border-green-600 shadow-sm active:border-gray-500 group block rounded-lg p-2 sm:p-4 hover:border-gray-300 m-1 sm:m-2 text-left opacity-50" : "shadow-sm active:border-gray-500 group block rounded-lg p-2 sm:p-4 hover:border-gray-300 m-1 sm:m-2 text-left border"} id={this.props.id}>
+            <a href = {this.href} className={this.props.concluded === 1 ? "border-4 border-green-700 shadow-sm active:border-gray-500 group block rounded-lg p-2 sm:p-4 hover:border-gray-300 m-0 sm:m-0 text-left opacity-50" : "shadow-sm active:border-gray-500 group block rounded-lg p-2 sm:p-4 hover:border-gray-300 m-0 sm:m-0 text-left border"} id={this.props.id}>
+                
                 <div className="pb-0">
                     <div className="font-medium text-black text-xl sm:text-2xl">{this.props.name}</div>
                     {typeof this.props.notes !== "undefined" ? (<div className="text-xs sm:text-sm text-gray-500 m-t-3">{this.props.notes}</div>) : ""}
@@ -53,7 +55,7 @@ class Todo extends Component {
                             this.props.goals
                                 .split(",")
                                 .map((goal) => (
-                                    <div className="inline-block rounded py-1 px-1 bg-gray-300 text-white mr-1" style={{fontSize: "0.4rem"}}>{goal}</div>
+                                    <div className="inline-block rounded py-1 px-1 bg-gray-300 text-white mr-1 text-xs">{goal}</div>
                                 ))
                             ) : (
                                 ""
@@ -86,4 +88,4 @@ class Todo extends Component {
     }
 }
 
-export default Todo
+export default Record

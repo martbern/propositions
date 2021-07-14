@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import TaskList from './components/TaskList'
+import TaskListMorning from './components/TaskListMorning'
+import TaskListAfternoon from './components/TaskListAfternoon'
+import TaskListEvening from './components/TaskListEvening'
 
 function App(props) {
   const [run, reRun] = useState({});
@@ -55,9 +57,14 @@ function App(props) {
               <p>Fetching Data...</p>
           )}
           </ul> */}
-      <div className="grid place-items-center">
-        <TaskList 
-          filter="False"
+      <div className="grid m-2">
+        <TaskListMorning 
+          reRun={reRun}
+        />
+        <TaskListAfternoon
+          reRun={reRun}
+        />
+        <TaskListEvening
           reRun={reRun}
         />
       </div>
