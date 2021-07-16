@@ -12,6 +12,7 @@ const airtable = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
 function App(props) {
   const [run, reRun] = useState({});
   console.log(run)
+  console.log(test)
 
   const [activities, setActivities] = useState({});
 
