@@ -6,6 +6,10 @@ const Log = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
     .table('Log')
 
 class Record extends Component {
+    constructor(props) {
+        super(props);
+    }
+    
     delete = () => {
         var element = document.getElementById(this.props.id);
         element.style.opacity = "0.1";

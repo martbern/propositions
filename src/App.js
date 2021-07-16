@@ -1,44 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TaskListMorning from './components/TaskListMorning'
 import TaskListAfternoon from './components/TaskListAfternoon'
 import TaskListEvening from './components/TaskListEvening'
+import TaskListNone from './components/TaskListNone';
+import Airtable from 'airtable-node';
+
+const airtable = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
+    .base('appMcSmdPtPWcBhIX')
+    .table('Log')
 
 function App(props) {
   const [run, reRun] = useState({});
   console.log(run)
-  /* // Get goals for filter button list
-  const [goals, setGoals] = useState({});
 
-  useState(() => {
-    airtable.list({
-        maxRecords: 999,
-        pageSize: 100,
-        view: 'Grid view',
-        cellFormat: 'json'
-    })
-    .then((data) => {
-        setGoals(data.records);
-        console.log(goals)
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+  const [activities, setActivities] = useState({});
+
+  useEffect(() => {
+      airtable.list({
+          maxRecords: 999,
+          pageSize: 30,
+          view: "L: Today's propositions",
+          cellFormat: 'json'
+      })
+      .then((data) => {
+          setActivities(data.records);
+      })
+      .catch((error) => {
+          console.log(error);
+      });
   }, []);
 
-  function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-  }
-
-  shuffleArray(goals)
-
-  // Use filter button to filter task list
-  const [filter, setFilter] = useState(null);
-  */
+  console.log(activities)
 
   return (
     <div className="grid mx-auto max-w-5xl">
@@ -58,14 +50,25 @@ function App(props) {
           )}
           </ul> */}
       <div className="grid m-2">
+        <TaskListNone 
+          reRun={reRun}
+          activities={activities}
+          airtable={airtable}
+        />
         <TaskListMorning 
           reRun={reRun}
+          activities={activities}
+          airtable={airtable}
         />
         <TaskListAfternoon
           reRun={reRun}
+          activities={activities}
+          airtable={airtable}
         />
         <TaskListEvening
           reRun={reRun}
+          activities={activities}
+          airtable={airtable}
         />
       </div>
     </div>

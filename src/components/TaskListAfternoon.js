@@ -8,28 +8,9 @@ var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
 today = dd + '/' + mm;
 
-const airtable = new Airtable({apiKey: 'keywMvCl7aRV4a5af'})
-    .base('appMcSmdPtPWcBhIX')
-    .table('Log')
-
 export default function TaskListAfternoon(props) {
 
-    const [activities, setActivities] = useState({});
-
-    useEffect(() => {
-        airtable.list({
-            maxRecords: 999,
-            pageSize: 100,
-            view: "L: Today's propositions",
-            cellFormat: 'json'
-        })
-        .then((data) => {
-            setActivities(data.records);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }, []);
+    const activities = props.activities
 
     console.log(activities)
 
@@ -37,8 +18,8 @@ export default function TaskListAfternoon(props) {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold">Afternoon</h1>
-            <div className="justify-center max-w-full w-full grid grid-cols-2 grid-flow-row-dense gap-1">
+            <h1 className="text-3xl font-bold mt-4">Afternoon</h1>
+            <div className="justify-center max-w-full w-full grid grid-cols-2 grid-flow-row-dense gap-2">
                 
                     {activities.length > 0 ? (
                         activities
@@ -47,6 +28,7 @@ export default function TaskListAfternoon(props) {
                             return a.fields["Concluded formula"] - b.fields["Concluded formula"];
                         })
                         .filter(record => record.fields["exec-date"] === today)
+                        .filter(record => typeof record.fields["time-of-day"] !== "undefined")
                         .filter(record => record.fields["time-of-day"].includes("Afternoon") === true)
                         .map((record) => (
                             <Record
@@ -56,6 +38,7 @@ export default function TaskListAfternoon(props) {
                                 notes={record.fields["Learning points"]}
                                 goals={record.fields["goals_string"]}
                                 concluded={record.fields["Concluded formula"]}
+                                airtable={props.airtable}
                             />
                         ))
                     ) : (

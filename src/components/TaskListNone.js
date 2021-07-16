@@ -8,7 +8,7 @@ var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
 today = dd + '/' + mm;
 
-export default function TaskListEvening(props) {
+export default function TaskListNone(props) {
 
     const activities = props.activities
 
@@ -18,8 +18,7 @@ export default function TaskListEvening(props) {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mt-4">Evening</h1>
-            <div className="justify-center max-w-full w-full grid grid-cols-2 grid-flow-row-dense gap-1">
+            <div className="justify-center max-w-full w-full grid grid-cols-2 grid-flow-row-dense gap-2">
                 
                     {activities.length > 0 ? (
                         activities
@@ -28,8 +27,7 @@ export default function TaskListEvening(props) {
                             return a.fields["Concluded formula"] - b.fields["Concluded formula"];
                         })
                         .filter(record => record.fields["exec-date"] === today)
-                        .filter(record => typeof record.fields["time-of-day"] !== "undefined")
-                        .filter(record => record.fields["time-of-day"].includes("Evening") === true)
+                        .filter(record => typeof record.fields["time-of-day"] === "undefined")
                         .map((record) => (
                             <Record
                                 name={record.fields.what_string}
